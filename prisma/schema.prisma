@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Flight {
+  id               String   @id @default(cuid())
+  flightNumber     String
+  departTime       String
+  departAirport    String
+  departTerminal   String
+  arrivalTime      String
+  arrivalAirport   String
+  arrivalTerminal  String
+  flightType       String
+  duration         String
+  operator         String
+  seatsLeft        Int
+
+  ecoBase          String
+  ecoFlex          String
+  deluxeBase       String
+  deluxeFlex       String
+  busBase          String
+  busFlex          String
+
+  departDateTime   DateTime
+}
