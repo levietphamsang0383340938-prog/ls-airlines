@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { CheckCircle2, Plane, Download, Home, User, Calendar, MapPin, Ticket } from "lucide-react";
+import { useState, useEffect, Suspense } from "react";
+import { CheckCircle2, Plane, Download, Home, User, Calendar, MapPin, Ticket, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 interface StoredUser {
@@ -11,7 +11,7 @@ interface StoredUser {
   phone: string;
 }
 
-export default function TicketSuccessPage() {
+function TicketContent() {
   const searchParams = useSearchParams();
   const [user, setUser] = useState<StoredUser | null>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -180,5 +180,20 @@ export default function TicketSuccessPage() {
       </div>
       </div>
     </div>
+  );
+}
+
+export default function TicketSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 text-gray-400 mx-auto mb-4 animate-spin" />
+          <p className="text-gray-600">Đang tải...</p>
+        </div>
+      </div>
+    }>
+      <TicketContent />
+    </Suspense>
   );
 }

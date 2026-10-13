@@ -1,16 +1,16 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { 
-  ChevronLeft, 
-  Plane, 
-  Calendar, 
-  User, 
-  CreditCard, 
-  Clock, 
-  QrCode, 
-  CheckCircle, 
+import { useState, useEffect, Suspense } from "react";
+import {
+  ChevronLeft,
+  Plane,
+  Calendar,
+  User,
+  CreditCard,
+  Clock,
+  QrCode,
+  CheckCircle,
   XCircle,
   AlertCircle,
   Building2,
@@ -39,7 +39,7 @@ interface BookingData {
   idNumber: string;
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<BookingStatus>("PENDING");
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
@@ -854,5 +854,20 @@ export default function CheckoutPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 text-gray-400 mx-auto mb-4 animate-spin" />
+          <p className="text-gray-600">Đang tải...</p>
+        </div>
+      </div>
+    }>
+      <CheckoutContent />
+    </Suspense>
   );
 }

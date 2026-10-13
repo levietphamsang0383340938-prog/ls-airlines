@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { ChevronLeft, Plane, Calendar, User, CreditCard } from "lucide-react";
+import { useState, useEffect, Suspense } from "react";
+import { ChevronLeft, Plane, Calendar, User, CreditCard, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 interface StoredUser {
@@ -16,7 +16,7 @@ interface StoredUser {
   walletBalance?: number;
 }
 
-export default function PassengerPage() {
+function PassengerContent() {
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -227,5 +227,20 @@ export default function PassengerPage() {
       </div>
       </div>
     </div>
+  );
+}
+
+export default function PassengerPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 text-gray-400 mx-auto mb-4 animate-spin" />
+          <p className="text-gray-600">Đang tải...</p>
+        </div>
+      </div>
+    }>
+      <PassengerContent />
+    </Suspense>
   );
 }
